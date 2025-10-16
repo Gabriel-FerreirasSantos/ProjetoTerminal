@@ -1,5 +1,4 @@
 from pathlib import Path
-from time import sleep
 
 #utilidades gerais e genericas
 from utils.limpar_tela import limpar_tela
@@ -11,7 +10,7 @@ from create_file.caracter_invalido import resposta_caracter_invalido
 from create_file.criar_arquivo_novamente import criar_arquivo_novamente
 from create_file.colocar_txt_no_final_arquivo import convertendo_arquivo_txt
 from create_file.verificar_se_arquivo_existe import arquivo_ja_existe
-
+from create_file.criar_arquivo import criar_arquivo
 
 #Uma variavel apenas para verificar o menu principal, caso o usuario quiser sair em breve
 verificador_menu_principal = True
@@ -48,17 +47,19 @@ while verificador_menu_principal == True:
                 else:
                     #Criar o arquivo
                     try:
-                        with open(nome_arquivo, "x") as arquivocase1:
-                            limpar_tela()
-                            print("Arquivo criado com sucesso!")
-                            deseja_voltar = criar_arquivo_novamente()
-                            if not deseja_voltar:
-                                menu_case1 = False
+                        nome_arquivo = criar_arquivo(nome_arquivo)
+                        limpar_tela()
+                        print("Arquivo criado com sucesso!")
+                        deseja_voltar = criar_arquivo_novamente()
+                        limpar_tela()
+                        if not deseja_voltar:
+                            menu_case1 = False
                                 
 
                     except FileExistsError:
                         limpar_tela()
                         deseja_voltar = arquivo_ja_existe()
+                        limpar_tela()
                         if deseja_voltar == False:
                             menu_case1 = False
 
