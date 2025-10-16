@@ -17,6 +17,7 @@ verificador_menu_principal = True
 
 while verificador_menu_principal == True:
     menu_case1 = True
+    menu_renomear_arquivo = True
     #apenas menu estético
     limpar_tela()
     menu()
@@ -69,7 +70,30 @@ while verificador_menu_principal == True:
                        #if not deseja_voltar:
                            # menu_case1 = False
                             
-        
+        case 2:
+            limpar_tela()
+            
+            while menu_renomear_arquivo == True:
+
+                #nome do arquivo
+               
+                def convertendo_arquivo_txt(nome):
+                    nome = Path(nome)
+                    return nome.with_suffix('.txt')
+
+                nome_arquivo = input("Digite o nome do arquivo que deseja renomear: ")
+                nome_arquivo = convertendo_arquivo_txt(nome_arquivo)
+
+                novo_nome_arquivo = input("Digite o novo nome do arquivo: ")
+                novo_nome_arquivo = Path(novo_nome_arquivo).with_suffix('.txt')  # Aqui salva o novo nome com .txt
+
+                if nome_arquivo.exists():
+                    nome_arquivo.rename(novo_nome_arquivo)
+                    print("Arquivo renomeado com sucesso!")
+                else:
+                    print("O arquivo que você digitou não existe.")
+
+
         case 4:
             limpar_tela()
             verificador_menu_principal = False
