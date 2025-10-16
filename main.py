@@ -6,7 +6,7 @@ from utils.digitoOunao import digitoOuNao
 from utils.menu import menu
 
 #funções da case 1
-from create_file.caracter_invalido import resposta_caracter_invalido
+from utils.caracter_invalido import resposta_caracter_invalido
 from create_file.criar_arquivo_novamente import criar_arquivo_novamente
 from create_file.colocar_txt_no_final_arquivo import convertendo_arquivo_txt
 from create_file.verificar_se_arquivo_existe import arquivo_ja_existe
