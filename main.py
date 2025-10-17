@@ -12,6 +12,9 @@ from create_file.colocar_txt_no_final_arquivo import convertendo_arquivo_txt
 from create_file.verificar_se_arquivo_existe import arquivo_ja_existe
 from create_file.criar_arquivo import criar_arquivo
 
+#funções da case 2
+from rename_file.convertendo_arquivo_para_txt_rename import convertendo_arquivo_txt_rename
+
 #Uma variavel apenas para verificar o menu principal, caso o usuario quiser sair em breve
 verificador_menu_principal = True
 
@@ -76,18 +79,13 @@ while verificador_menu_principal == True:
             while menu_renomear_arquivo == True:
 
                 #nome do arquivo
-               
-                def convertendo_arquivo_txt(nome):
-                    nome = Path(nome)
-                    return nome.with_suffix('.txt')
-
                 nome_arquivo = input("Digite o nome do arquivo que deseja renomear: ")
-                nome_arquivo = convertendo_arquivo_txt(nome_arquivo)
+                nome_arquivo = convertendo_arquivo_txt_rename(nome_arquivo) #converte para txt
 
-                novo_nome_arquivo = input("Digite o novo nome do arquivo: ")
-                novo_nome_arquivo = Path(novo_nome_arquivo).with_suffix('.txt')  # Aqui salva o novo nome com .txt
+                if novo_nome_arquivo.exists():
 
-                if nome_arquivo.exists():
+                    novo_nome_arquivo = input("Digite o novo nome do arquivo: ")
+                    novo_nome_arquivo = convertendo_arquivo_txt_rename(novo_nome_arquivo)
                     nome_arquivo.rename(novo_nome_arquivo)
                     print("Arquivo renomeado com sucesso!")
                 else:
