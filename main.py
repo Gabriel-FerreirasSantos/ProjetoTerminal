@@ -86,15 +86,14 @@ while verificador_menu_principal == True:
                     while True:
                         novo_nome_arquivo = input("Digite o novo nome do arquivo: ")
                         novo_nome_arquivo = convertendo_arquivo_txt_rename(novo_nome_arquivo)
+                        
                         caracteres_invalidos = ['<', '>', ':', '"', '/', '\\', '|', '?', '*']
 
                         #Verifica se tem caractere invalido para não dar um erro
                         if any(c in novo_nome_arquivo for c in caracteres_invalidos):
-                            try:
-                                nome_arquivo.rename(novo_nome_arquivo)
-                                print("Arquivo renomeado com sucesso!")
-                            except:
-                                pass
+                            nome_arquivo.rename(novo_nome_arquivo)
+                            print("Arquivo renomeado com sucesso!")
+
                 else:
                     print("O arquivo que você digitou não existe.")
 
