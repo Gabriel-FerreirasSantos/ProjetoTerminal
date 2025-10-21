@@ -15,6 +15,9 @@ from create_file.criar_arquivo import criar_arquivo
 #funções da case 2
 from rename_file.convertendo_arquivo_para_txt_rename import convertendo_arquivo_txt_rename
 
+#funções da case3
+from delet_file.deletar_arquivo import deletar_arquivo
+
 #Uma variavel apenas para verificar o menu principal, caso o usuario quiser sair em breve
 verificador_menu_principal = True
 
@@ -85,18 +88,45 @@ while verificador_menu_principal == True:
                 if nome_arquivo.exists():
                     while True:
                         novo_nome_arquivo = input("Digite o novo nome do arquivo: ")
-                        novo_nome_arquivo = convertendo_arquivo_txt_rename(novo_nome_arquivo)
                         
+                        #Lista com os caracteres invalidos
                         caracteres_invalidos = ['<', '>', ':', '"', '/', '\\', '|', '?', '*']
 
                         #Verifica se tem caractere invalido para não dar um erro
                         if any(c in novo_nome_arquivo for c in caracteres_invalidos):
-                            nome_arquivo.rename(novo_nome_arquivo)
-                            print("Arquivo renomeado com sucesso!")
 
+                            print("Erro: caracteres invalidos")
+                        else:
+                            #convertendo o novo arquivo para txt
+                            novo_nome_arquivo = convertendo_arquivo_txt_rename(novo_nome_arquivo)
+                            nome_arquivo.rename(novo_nome_arquivo)
+                            
+                            print("Arquivo renomeado com sucesso!")
+                            break
                 else:
                     print("O arquivo que você digitou não existe.")
 
+        case 3:
+            
+            while True:
+                arquivo_que_quer_deletar = input("Qual o nome do arquivo que você deseja excluir? :")
+
+                #colocando txt no final do arquivo
+                arquivo_que_quer_deletar = convertendo_arquivo_txt(arquivo_que_quer_deletar)
+
+                #transformando em path
+                arquivo_que_quer_deletar = Path(arquivo_que_quer_deletar)
+
+                #verificar se o arquivo path existe
+                if arquivo_que_quer_deletar.exists():
+
+                    deletar_arquivo(arquivo_que_quer_deletar)
+                    print("Arquivo deletado com sucesso")
+                    
+                    break
+
+                else:
+                    print("Erro: o arquivo que voce digitou não existe")
 
         case 4:
             limpar_tela()
