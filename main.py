@@ -4,6 +4,7 @@ from pathlib import Path
 from utils.limpar_tela import limpar_tela
 from utils.digitoOunao import digitoOuNao
 from utils.menu import menu
+from utils.voltar_universal import voltar_universal
 
 #funções da case 1
 from utils.caracter_invalido import resposta_caracter_invalido
@@ -14,16 +15,23 @@ from create_file.criar_arquivo import criar_arquivo
 
 #funções da case 2
 from rename_file.convertendo_arquivo_para_txt_rename import convertendo_arquivo_txt_rename
+from rename_file.renomear_arquivo_novamente import renomear_arquivo_novamente
 
 #funções da case3
 from delet_file.deletar_arquivo import deletar_arquivo
 
+
+
 #Uma variavel apenas para verificar o menu principal, caso o usuario quiser sair em breve
 verificador_menu_principal = True
 
+#programa
 while verificador_menu_principal == True:
-    menu_case1 = True
+    #variaveis do subsmenus
+    menu_criar_arquivo = True
     menu_renomear_arquivo = True
+    menu_deletar_arquivo = True
+    
     #apenas menu estético
     limpar_tela()
     menu()
@@ -38,7 +46,7 @@ while verificador_menu_principal == True:
         case 1:
             limpar_tela()
             #Main
-            while menu_case1 == True:
+            while menu_criar_arquivo == True:
                 nome_arquivo = input("Digite o nome do arquivo :")
                 
                 #Colocar .txt no final
@@ -60,7 +68,7 @@ while verificador_menu_principal == True:
                         deseja_voltar = criar_arquivo_novamente()
                         limpar_tela()
                         if not deseja_voltar:
-                            menu_case1 = False
+                            menu_criar_arquivo = False
                                 
 
                     except FileExistsError:
@@ -68,43 +76,75 @@ while verificador_menu_principal == True:
                         deseja_voltar = arquivo_ja_existe()
                         limpar_tela()
                         if deseja_voltar == False:
-                            menu_case1 = False
+                            menu_criar_arquivo = False
 
                     #except Exception as e:
                         #print(f"Erro ao criar o arquivo: {e}")
                         #deseja_voltar = refazer_case1()
-                       #if not deseja_voltar:
-                           # menu_case1 = False
+                        #if not deseja_voltar:
+                            #menu_case1 = False
                             
         case 2:
             limpar_tela()
             
+            #main
             while menu_renomear_arquivo == True:
 
+                #limpar tela
+                limpar_tela()
+                
                 #nome do arquivo
                 nome_arquivo = input("Digite o nome do arquivo que deseja renomear: ")
                 nome_arquivo = convertendo_arquivo_txt_rename(nome_arquivo) #converte para txt
 
-                if nome_arquivo.exists():
-                    while True:
-                        novo_nome_arquivo = input("Digite o novo nome do arquivo: ")
+                #verifica se o arquivo existe e se é arquivo
+                if nome_arquivo.exists and nome_arquivo.is_file():
+
+                    novo_nome_arquivo = input("Digite o novo nome do arquivo: ")
                         
-                        #Lista com os caracteres invalidos
-                        caracteres_invalidos = ['<', '>', ':', '"', '/', '\\', '|', '?', '*']
+                    #Lista com os caracteres invalidos
+                    caracteres_invalidos = ['<', '>', ':', '"', '/', '\\', '|', '?', '*']
 
-                        #Verifica se tem caractere invalido para não dar um erro
-                        if any(c in novo_nome_arquivo for c in caracteres_invalidos):
-
-                            print("Erro: caracteres invalidos")
+                    #Verifica se tem caractere invalido para não dar um erro
+                    if any(c in novo_nome_arquivo for c in caracteres_invalidos):
+                        limpar_tela()
+                        print(f"Erro: caracteres invalidos {novo_nome_arquivo}")
+                        print("Deseja voltar para o menu principal digite [1]")
+                        print("Deseja tentar renomear novamente digite [2]")
+                        deseja_voltar = voltar_universal()
+                        if deseja_voltar == True:
+                            menu_renomear_arquivo = False
                         else:
+                            pass
+
+                    else:
+
+                        try:
                             #convertendo o novo arquivo para txt
                             novo_nome_arquivo = convertendo_arquivo_txt_rename(novo_nome_arquivo)
-                            nome_arquivo.rename(novo_nome_arquivo)
-                            
-                            print("Arquivo renomeado com sucesso!")
-                            break
+                            nome_arquivo.rename(novo_nome_arquivo) #renomeando
+                        except Exception as e:
+                            print(f"Erro ao renomear: {e}")
+                                
+                            deseja_voltar = renomear_arquivo_novamente()
+
+                        limpar_tela()
+                        print("Arquivo renomeado com sucesso!")
+                        deseja_voltar = renomear_arquivo_novamente()
+                        if not deseja_voltar == True:
+                            menu_renomear_arquivo = False
                 else:
-                    print("O arquivo que você digitou não existe.")
+                    limpar_tela()
+                    print(21*"=-=")
+                    print(f"O arquivo que você digitou não existe ou não existe. '{nome_arquivo}'")
+                    print(21*"=-=")
+                    print("Deseja voltar para o menu principal digite [1]")
+                    print("Deseja tentar renomear novamente digite [2]")
+                    deseja_voltar = voltar_universal()
+                    if deseja_voltar == True:
+                        menu_renomear_arquivo = False
+                    else:
+                        pass
 
         case 3:
             
